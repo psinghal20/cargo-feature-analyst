@@ -1,0 +1,8 @@
+[package]
+name = "feature_analyst"
+version = "0.1.0"
+authors = ["psinghal20 <psinghal20@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+cargo = "0.34"
