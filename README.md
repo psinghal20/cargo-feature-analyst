@@ -23,11 +23,11 @@ It provides with a list of Enabled features in your dependency tree with names o
 
     mycrate/default
     mycrate/foo
-    dep1/default (mycrate)
-    dep1/bar (mycrate)
-    dep2/baz (mycrate)
-    dep3-1.0.0/qux (mycrate, dep1)
-    dep3-1.1.0/quazam (dep2)
+    dep1/default[mycrate]
+    dep1/bar [mycrate]
+    dep2/baz [mycrate]
+    dep3-1.0.0/qux [mycrate, dep1]
+    dep3-1.1.0/quazam [dep2]
 
     Disabled features
     -------------------
@@ -38,3 +38,6 @@ It provides with a list of Enabled features in your dependency tree with names o
     dep3-1.0.0/default
     dep3-1.0.0/x
     dep3-1.1.0/default
+
+## Installation
+    cargo install feature_analyst
