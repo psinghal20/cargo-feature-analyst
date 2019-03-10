@@ -65,10 +65,12 @@ fn main() {
         &mut disabled_features,
     );
     println!("Enabled Features");
+    print_seperator();
     for (key, value) in &enabled_features_map {
         println!("{} {:?}", key, value);
     }
     println!("\nDisabled Features");
+    print_seperator();
     for feature in &disabled_features {
         println!("{}", feature);
     }
@@ -166,4 +168,12 @@ fn build_graph<'a>(
             }
         }
     }
+}
+
+
+fn print_seperator() {
+    for _ in 1..20 {
+        print!("-");
+    }
+    println!();
 }
