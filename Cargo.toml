@@ -3,6 +3,8 @@ name = "feature_analyst"
 version = "0.1.0"
 authors = ["psinghal20 <psinghal20@gmail.com>"]
 edition = "2018"
+description = "feature-analyst is a tool written in rust to analyse the feature usage in your rust project."
+license = "MIT"
 
 [dependencies]
 cargo = "0.34"
