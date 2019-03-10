@@ -53,10 +53,16 @@ fn main() {
 
     let ids = packages.package_ids().collect::<Vec<_>>();
     let packages = registry.get(&ids).unwrap();
-    let (enabled_features_map, disabled_features) = build_graph(
+
+    let mut enabled_features_map: HashMap<Feature, Vec<String>> = HashMap::new();
+    let mut disabled_features: HashSet<Feature> = HashSet::new();
+    
+    build_graph(
         &resolve,
         &packages,
         package.package_id(),
+        &mut enabled_features_map,
+        &mut disabled_features,
     );
     println!("Enabled Features");
     for (key, value) in &enabled_features_map {
@@ -123,11 +129,15 @@ fn build_graph<'a>(
     resolve: &'a Resolve,
     packages: &'a PackageSet<'_>,
     root: PackageId,
-) -> (HashMap<Feature, Vec<String>>, HashSet<Feature>) {
-    let mut enabled_features_map: HashMap<Feature, Vec<String>> = HashMap::new();
-    let mut disabled_features: HashSet<Feature> = HashSet::new();
+    enabled_features_map: &mut HashMap<Feature, Vec<String>>,
+    disabled_features: &mut HashSet<Feature>,
+) -> () {
+    let mut traversed_pkg: HashSet<PackageId> = HashSet::new();
     let mut pending = vec![root];
     while let Some(pkg_id) = pending.pop() {
+        if !traversed_pkg.insert(pkg_id) {
+            continue;
+        }
         for raw_dep_id in resolve.deps_not_replaced(pkg_id) {
             let dep_id = match resolve.replacement(raw_dep_id) {
                 Some(id) => id,
@@ -156,5 +166,4 @@ fn build_graph<'a>(
             }
         }
     }
-    return (enabled_features_map, disabled_features);
 }
