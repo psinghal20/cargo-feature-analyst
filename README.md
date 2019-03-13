@@ -1,11 +1,11 @@
-# feature-analyst
-feature-analyst is a tool written in rust to analyse the feature usage in your rust project. 
+# cargo-feature-analyst
+cargo-feature-analyst is a tool written in rust to analyse the feature usage in your rust project. It is provided as cargo subcommand.
 
 It provides with a list of Enabled features in your dependency tree with names of crates enabling those features and a list of all the disabled features in your dependency tree.
 
 ## Usage
     USAGE:
-    feature_analyst [FLAGS] [OPTIONS]
+    cargo feature-analyst [FLAGS] [OPTIONS]
 
     FLAGS:
             --all-features           Activate all available features
@@ -40,4 +40,4 @@ It provides with a list of Enabled features in your dependency tree with names o
     dep3-1.1.0/default
 
 ## Installation
-    cargo install feature_analyst
+    cargo install cargo-feature-analyst
