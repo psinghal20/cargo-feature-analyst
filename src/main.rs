@@ -12,7 +12,15 @@ use structopt::StructOpt;
 
 
 #[derive(StructOpt)]
-struct Opt {
+#[structopt(bin_name = "cargo")]
+enum Opt {
+    #[structopt(name = "feature-analyst")]
+    /// Display feature analysis of rust crate
+    FeatureAnalyst(Args),
+}
+
+#[derive(StructOpt)]
+struct Args {
     #[structopt(long = "features", value_name = "FEATURES")]
     /// Space-separated list of features to activate
     features: Option<String>,
@@ -36,7 +44,7 @@ fn main() {
         }
     };
 
-    let args = Opt::from_args();
+    let Opt::FeatureAnalyst(args) = Opt::from_args();
 
     let root = important_paths::find_root_manifest_for_wd(&config.cwd()).unwrap();
     let workspace = Workspace::new(&root, &config).unwrap();

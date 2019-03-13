@@ -1,5 +1,5 @@
 [package]
-name = "feature_analyst"
+name = "cargo-feature-analyst"
 version = "0.1.0"
 authors = ["psinghal20 <psinghal20@gmail.com>"]
 edition = "2018"

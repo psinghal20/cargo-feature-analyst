@@ -132,6 +132,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "cargo-feature-analyst"
+version = "0.1.0"
+dependencies = [
+ "cargo 0.34.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "structopt 0.2.15 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "cc"
 version = "1.0.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -311,14 +319,6 @@ dependencies = [
  "quote 0.6.11 (registry+https://github.com/rust-lang/crates.io-index)",
  "syn 0.15.28 (registry+https://github.com/rust-lang/crates.io-index)",
  "synstructure 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "feature_analyst"
-version = "0.1.0"
-dependencies = [
- "cargo 0.34.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "structopt 0.2.15 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
