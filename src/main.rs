@@ -6,7 +6,7 @@ use cargo::core::{Package, PackageId, Resolve, Workspace};
 use cargo::ops;
 use cargo::util::{important_paths, CargoResult};
 use cargo::Config;
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeMap, BTreeSet, HashSet};
 use std::fmt;
 use structopt::StructOpt;
 
@@ -54,8 +54,8 @@ fn main() {
     let ids = packages.package_ids().collect::<Vec<_>>();
     let packages = registry.get(&ids).unwrap();
 
-    let mut enabled_features_map: HashMap<Feature, Vec<String>> = HashMap::new();
-    let mut disabled_features: HashSet<Feature> = HashSet::new();
+    let mut enabled_features_map: BTreeMap<Feature, Vec<String>> = BTreeMap::new();
+    let mut disabled_features: BTreeSet<Feature> = BTreeSet::new();
     
     build_graph(
         &resolve,
@@ -114,11 +114,11 @@ fn resolve<'a, 'cfg>(
     Ok((packages, resolve))
 }
 
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, PartialOrd, Ord, Hash)]
 struct Feature {
-    name: String,
     parent_crate: String,
     version: String,
+    name: String,
 }
 
 impl fmt::Display for Feature {
@@ -131,8 +131,8 @@ fn build_graph<'a>(
     resolve: &'a Resolve,
     packages: &'a PackageSet<'_>,
     root: PackageId,
-    enabled_features_map: &mut HashMap<Feature, Vec<String>>,
-    disabled_features: &mut HashSet<Feature>,
+    enabled_features_map: &mut BTreeMap<Feature, Vec<String>>,
+    disabled_features: &mut BTreeSet<Feature>,
 ) -> () {
     let mut traversed_pkg: HashSet<PackageId> = HashSet::new();
     let mut pending = vec![root];
@@ -148,18 +148,18 @@ fn build_graph<'a>(
             pending.push(dep_id);
             for feature_name in resolve.features(dep_id).iter() {
                 let feature = Feature{
-                    name: feature_name.clone(),
                     parent_crate: dep_id.name().to_string(),
                     version: dep_id.version().to_string(),
+                    name: feature_name.clone(),
                 };
                 let enabling_crates = enabled_features_map.entry(feature).or_insert(Vec::new());
                 enabling_crates.push(pkg_id.name().to_string())
             }
             for (feature_name, _) in packages.get_one(dep_id).unwrap().summary().features() {
                 let feature = Feature{
-                    name: feature_name.to_string(),
                     parent_crate: dep_id.name().to_string(),
                     version: dep_id.version().to_string(),
+                    name: feature_name.to_string(),
                 };
                 match enabled_features_map.get(&feature) {
                     None => disabled_features.insert(feature),
