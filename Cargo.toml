@@ -5,6 +5,7 @@ authors = ["psinghal20 <psinghal20@gmail.com>"]
 edition = "2018"
 description = "cargo-feature-analyst is a tool written in rust to analyse the feature usage in your rust project."
 license = "MIT"
+repository = "https://github.com/psinghal20/cargo-feature-analyst"
 
 [dependencies]
 cargo = "0.34"
